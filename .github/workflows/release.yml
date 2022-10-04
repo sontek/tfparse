@@ -31,7 +31,11 @@ jobs:
   Build-MacOS:
     strategy:
       matrix:
-        arch: ["x86_64", "arm64"]
+        include:
+          - cibw_arch: "x86_64"
+            go_arch: "amd64"
+          - cibw_arch: "arm64"
+            go_arch: "arm64"
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -45,8 +49,8 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@7c45799919d2dcd7ac59433924d763dd24d97483 # ratchet:pypa/cibuildwheel@v2.9.0
         env:
-          CIBW_ARCHS: ${{ matrix.arch }}
-          GOARCH: ${{ matrix.arch }}
+          CIBW_ARCHS: ${{ matrix.cibw_arch }}
+          GOARCH: ${{ matrix.go_arch }}
       - name: Upload Artifacts
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # ratchet:actions/upload-artifact@v3
         with:
