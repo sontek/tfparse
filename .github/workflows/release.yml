@@ -36,7 +36,7 @@ jobs:
             go_arch: "amd64"
           - cibw_arch: "arm64"
             go_arch: "arm64"
-    runs-on: macos-12
+    runs-on: macos-11
     steps:
       - name: Checkout
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # ratchet:actions/checkout@v3.0.2
@@ -52,7 +52,7 @@ jobs:
           CGO_ENABLED: 1
           CIBW_ARCHS: ${{ matrix.cibw_arch }}
           GOARCH: ${{ matrix.go_arch }}
-          MACOSX_DEPLOYMENT_TARGET: 12.3.0
+          CIBW_BUILD_VERBOSITY: 3
       - name: Upload Artifacts
         uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8 # ratchet:actions/upload-artifact@v3
         with:
