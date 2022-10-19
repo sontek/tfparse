@@ -17,10 +17,7 @@ classifiers=[
     "Programming Language :: Python :: 3.10",
     "License :: OSI Approved :: Apache Software License",
 ]
-
-[tool.poetry.build]
-script = "build.py"
-# generate-setup-file = false
+build = "build.py"
 
 [tool.poetry.dependencies]
 python = "^3.8"
