@@ -17,6 +17,10 @@ classifiers=[
     "Programming Language :: Python :: 3.10",
     "License :: OSI Approved :: Apache Software License",
 ]
+include = [
+    { path = "*.so", format = "wheel" },
+
+]
 
 # https://github.com/python-poetry/poetry/issues/2740
 [tool.poetry.build]
