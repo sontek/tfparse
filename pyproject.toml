@@ -17,7 +17,11 @@ classifiers=[
     "Programming Language :: Python :: 3.10",
     "License :: OSI Approved :: Apache Software License",
 ]
-build = "build.py"
+
+# https://github.com/python-poetry/poetry/issues/2740
+[tool.poetry.build]
+script = "build.py"
+generate-setup-file = true
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -37,6 +41,7 @@ setuptools = "^65.4.1"
 
 [build-system]
 requires = [
+    "Cython>=0.29.32",
     "poetry-core>=1.0.0",
     "wheel>=0.37.1",
     "setuptools>=65.5.0",
