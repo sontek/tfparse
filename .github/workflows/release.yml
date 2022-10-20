@@ -36,7 +36,7 @@ jobs:
             go_arch: "amd64"
           - cibw_arch: "arm64"
             go_arch: "arm64"
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
       - name: Checkout
         uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # ratchet:actions/checkout@v3.0.2
