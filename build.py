@@ -54,6 +54,8 @@ def build(setup_kwargs):
         release = platform.mac_ver()[0]
         machine = platform.machine()
         host_platform = os.getenv("_PYTHON_HOST_PLATFORM")
+        go_arch = os.getenv("GOARCH")
+        arch_flags = os.getenv("ARCHFLAGS")
 
         # If the MACOSX_DEPLOYMENT_TARGET environment variable is defined, use
         # it, as it will be the most accurate. Otherwise use the value returned by
@@ -74,6 +76,8 @@ def build(setup_kwargs):
         print(f"{release=}")
         print(f"{machine=}")
         print(f"{host_platform=}")
+        print(f"{go_arch=}")
+        print(f"{arch_flags=}")
         print("================================")
 
         platform_name = f"macosx-{major_macos}.{minor_macos}-{machine}"
