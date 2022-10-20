@@ -51,6 +51,7 @@ jobs:
         env:
           CGO_ENABLED: 1
           CIBW_ARCHS: ${{ matrix.cibw_arch }}
+          CIBW_ARCHS_MACOS: ${{ matrix.cibw_arch }}
           GOARCH: ${{ matrix.go_arch }}
           CIBW_BUILD_VERBOSITY: 3
       - name: Upload Artifacts
