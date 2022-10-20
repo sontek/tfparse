@@ -2,41 +2,46 @@
 # Copyright The Cloud Custodian Authors.
 # SPDX-License-Identifier: Apache-2.0
 import sys
-from setuptools.extension import Extension
-from Cython.Distutils import build_ext
+import sysconfig
+import os
+from cffi import FFI
 
-ext_modules = [Extension("tfparse", ["gotfparse/cmd/tfparse/main.go"])]
-cffi_modules = ["tfparse/build_cffi.py:ffi"]
-build_golang = {"root": "github.com/cloud-custodian/tfparse/gotfparse"}
-
-
-class BuildFailed(Exception):
-    pass
-
-
-class ExtBuilder(build_ext):
-    def run(self):
-        try:
-            build_ext.run(self)
-        except Exception:
-            raise BuildFailed("File not found. Could not compile C extension.")
-
-    def build_extension(self, ext):
-        try:
-            build_ext.build_extension(self, ext)
-        except Exception:
-            raise BuildFailed("Could not compile C extension.")
-
+here = os.path.dirname(__file__)
 
 def build(setup_kwargs):
     """
     This function is mandatory in order to build the extensions.
     """
-    setup_kwargs.update(
-        {
-            "build_golang": build_golang,
-            "ext_modules": ext_modules,
-            "cffi_modules": cffi_modules,
-            "cmdclass": {"build_ext": ExtBuilder},
-        }
+    suffix = sysconfig.get_config_var("EXT_SUFFIX")
+
+    libpath = os.path.join(here, f"tfparse{suffix}")
+    os.system(
+        f"cd gotfparse && go build -buildmode=c-shared  -o {libpath} cmd/tfparse/main.go"
     )
+    ffi = FFI()
+
+    ffi.set_source(
+        "tfparse._tfparse",
+        None,
+        include_dirs=[],
+        extra_compile_args=["-march=native"],
+        libraries=["gotfparse/tfparse.so"],
+    )
+
+    ffi.cdef(
+        """
+            typedef struct {
+                char *json;
+                char *err;
+            } parseResponse;
+
+            parseResponse Parse(char* a, int* e1, int* e2);
+            void free(void *ptr);
+            """
+    )
+    ffi.compile()
+
+
+
+if __name__ == "__main__":
+    build({})
