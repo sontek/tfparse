@@ -10,16 +10,13 @@ license = "Apache-2.0"
 readme = "README.md"
 include = [
     "LICENSE",
+    { path = "*.so", format = "wheel" },
 ]
 classifiers=[
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3.10",
     "License :: OSI Approved :: Apache Software License",
-]
-include = [
-    { path = "*.so", format = "wheel" },
-
 ]
 
 # https://github.com/python-poetry/poetry/issues/2740
